@@ -15,4 +15,4 @@ exchange_rate.columns = ["Rate"]
 print(exchange_rate)
 
 # load data into csv
-exchange_rate.to_csv('exchange_rates_1.csv')
+exchange_rate.to_csv('exchange_rates.csv')
