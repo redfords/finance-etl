@@ -34,7 +34,8 @@ def extract_from_exchange_rate():
     return exchange_rate
 
 def extract_from_stock_symbol():
-    data = pd.DataFrame(columns = ["Currency", "Description", "Symbol", "FIGI Identifier"])
+    data = pd.DataFrame(columns = [
+        "Currency", "Description", "Symbol", "FIGI Identifier", "MIC", "Security Type"])
     data = extract_from_csv('stock_symbol.csv')
 
     return data
@@ -64,7 +65,8 @@ def transform(data, exchange_rate, stock_symbol):
     data['Mkt Cap (US$)'] = round(data['Mkt Cap (US$)'] * exchange_rate, 3)
 
     # rename columns to GBP
-    data.columns = ['Company', 'Last (GBP$)', 'CHG%', 'CHG', 'Rating', 'Vol', 'Mkt Cap (GBP$)']
+    data.columns = [
+        'Symbol', 'Description', 'Last (GBP$)', 'CHG%', 'CHG', 'Rating', 'Vol', 'Mkt Cap (GBP$)']
 
     # sort by stock value
     data = data.sort_values(by = ['Last (GBP$)'], ascending = [False])
@@ -73,8 +75,9 @@ def transform(data, exchange_rate, stock_symbol):
     data = data.drop_duplicates(
         subset = ['Company', 'Last (GBP$)', 'CHG%', 'CHG', 'Rating', 'Vol', 'Mkt Cap (GBP$)'])
 
-    # add FIGI identifier
-    data = pd.merge(data, stock_symbol[['Symbol', 'FIGI Identifier']], on = 'Symbol', how = 'left')
+    # add FIGI identifier, market identifier code and security type
+    data = pd.merge(data, stock_symbol[['Symbol', 'FIGI Identifier', 'MIC', 'Security Type']],
+        on = 'Symbol', how = 'left')
 
     return data
 

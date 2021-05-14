@@ -2,7 +2,9 @@ import requests
 import pandas as pd
 
 # extract currency exchange rate data
-url = "http://api.exchangeratesapi.io/v1/latest?base=EUR&access_key=869c331656e9baaca09fad9d9dce9fe1"
+access_key = "869c331656e9baaca09fad9d9dce9fe1"
+
+url = "http://api.exchangeratesapi.io/v1/latest?base=EUR&access_key=" + access_key
 
 r = requests.get(url)
 
