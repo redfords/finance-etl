@@ -1,68 +1,81 @@
-import glob
-import pandas as pd
 from datetime import datetime
+import pandas as pd
+pd.options.mode.chained_assignment = None
 
 tmpfile = "temp.tmp"
 logfile = "logfile.txt"
 targetfile = "transformed_data.csv"
 
-# extract CSV and json files
+# files to convert from .json to dataframe
+file_name = [
+    'large_cap.json',
+    'top_gainers.json',
+    'top_losers.json',
+    'most_active.json',
+    'most_volatile.json',
+    'overbought.json',
+    'oversold.json'
+]
 
+# extract CSV to dataframe
 def extract_from_csv(file_to_process):
     dataframe = pd.read_csv(file_to_process)
 
     return dataframe
 
+# extract .json to dataframe
 def extract_from_json(file_to_process):
-    dataframe = pd.read_json(file_to_process, lines = True)
+    dataframe = pd.read_json(file_to_process)
 
     return dataframe
 
-# extract exchange rate
+# merge all .json files to dataframe
+def extract():
+    extracted_data = pd.DataFrame()
 
-def find_exchange_rate(symbol, data):
-    exchange_rate = data.at[symbol, 'Rate']
+    for file in file_name:
+        extracted_data = extracted_data.append(extract_from_json(file), ignore_index = True)
 
-    return exchange_rate
+    extracted_data.columns = [
+        'Company', 'Last (US$)', 'CHG%', 'CHG', 'Rating', 'Vol', 'Mkt Cap (US$)']
 
-def extract_from_exchange_rate():
-    data = pd.DataFrame(columns = ['Rate'])
-    data = extract_from_csv('exchange_rates.csv')
-
-    exchange_rate = find_exchange_rate('GBP', data)
-
-    return exchange_rate
+    return extracted_data
 
 def extract_from_stock_symbol():
     data = pd.DataFrame(columns = [
         "Currency", "Description", "Symbol", "FIGI Identifier", "MIC", "Security Type"])
-    data = extract_from_csv('stock_symbol.csv')
+    csv_data = extract_from_csv('stock_symbol.csv')
+    data = csv_data.iloc[:, 1:7]
 
     return data
 
-# extract all files into data frame
+def find_exchange_rate():
+    data = pd.DataFrame()
+    data = extract_from_csv('exchange_rates.csv')
+    data.columns = ['Currency', 'Rate']
+    data.set_index('Currency', inplace = True)
 
-def extract():
-    extracted_data = pd.DataFrame(
-        columns = ['Company', 'Last (US$)', 'CHG%', 'CHG', 'Rating', 'Vol', 'Mkt Cap (US$)'])
-
-    for csvfile in glob.glob("*.json"):
-        extracted_data = extracted_data.append(extract_from_csv(csvfile), ignore_index = True)
-
-    return extracted_data
+    exchange_rate = data.at['GBP', 'Rate']
+    
+    return exchange_rate
 
 def transform(data, exchange_rate, stock_symbol):
+    # remove duplicates
+    data = data.drop_duplicates(
+        subset = ['Company', 'Last (US$)', 'CHG%', 'CHG', 'Rating', 'Vol', 'Mkt Cap (US$)'])
 
-    # split company symbol and description
+    # split company into symbol and description
     data[['Symbol', 'Description']] = data['Company'].str.split(' ', 1, expand = True)
+    data.drop('Company', axis = 1, inplace = True)
 
     # rearrange columns
     data = data[[
         'Symbol', 'Description', 'Last (US$)', 'CHG%', 'CHG', 'Rating', 'Vol', 'Mkt Cap (US$)']]
 
     # convert exchange rate from USD to GBP
+    data['Last (US$)'] = pd.to_numeric(data['Last (US$)'])
     data['Last (US$)'] = round(data['Last (US$)'] * exchange_rate, 3)
-    data['Mkt Cap (US$)'] = round(data['Mkt Cap (US$)'] * exchange_rate, 3)
+    # data['Mkt Cap (US$)'] = round(data['Mkt Cap (US$)'] * exchange_rate, 3)
 
     # rename columns to GBP
     data.columns = [
@@ -70,10 +83,7 @@ def transform(data, exchange_rate, stock_symbol):
 
     # sort by stock value
     data = data.sort_values(by = ['Last (GBP$)'], ascending = [False])
-    
-    # remove duplicates
-    data = data.drop_duplicates(
-        subset = ['Company', 'Last (GBP$)', 'CHG%', 'CHG', 'Rating', 'Vol', 'Mkt Cap (GBP$)'])
+    data = data.reset_index(drop = True)
 
     # add FIGI identifier, market identifier code and security type
     data = pd.merge(data, stock_symbol[['Symbol', 'FIGI Identifier', 'MIC', 'Security Type']],
@@ -82,12 +92,10 @@ def transform(data, exchange_rate, stock_symbol):
     return data
 
 # loading
-
 def load(targetfile, data_to_load):
     data_to_load.to_csv(targetfile)
 
 # logging
-
 def log(message):
     timestamp_format = '%Y-%h-%d-%H:%M:%S'
     now = datetime.now()
@@ -97,20 +105,17 @@ def log(message):
         f.write(timestamp + ',' + message + '\n')
 
 # running the ETL process
-
-log("ETL job started")
+# log("ETL job started")
 
 log("Extract phase started")
 extracted_data = extract()
-exchange_rate = extract_from_exchange_rate
-stock_symbol = extract_from_stock_symbol
+exchange_rate = find_exchange_rate()
+stock_symbol_data = extract_from_stock_symbol()
 log("Extract phase ended")
-print(extracted_data)
 
 log("Transform phase started")
-transformed_data = transform(extracted_data, exchange_rate, stock_symbol)
+transformed_data = transform(extracted_data, exchange_rate, stock_symbol_data)
 log("Transform phase ended")
-transformed_data
 
 log("Load phase started")
 load(targetfile, transformed_data)
