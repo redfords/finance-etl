@@ -12,6 +12,7 @@ Stocks that have been traded the most
 Stocks with the highest volatility
 Overvalued stocks
 Undervalued stocks
+
 """
 
 url = "https://www.tradingview.com/markets/stocks-usa/market-movers-"
@@ -42,5 +43,6 @@ file_name = {
     'oversold': 'oversold/'
 }
 
+# extract data and save as .json
 for key, value in file_name.items():
     data_to_json(key, value)
