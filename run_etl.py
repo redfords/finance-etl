@@ -2,19 +2,19 @@ from datetime import datetime
 import pandas as pd
 pd.options.mode.chained_assignment = None
 
-tmpfile = "temp.tmp"
-logfile = "logfile.txt"
-targetfile = "transformed_data.csv"
+tmpfile = "files/temp.tmp"
+logfile = "files/logfile.txt"
+targetfile = "files/transformed_data.csv"
 
 # files to convert from .json to dataframe
 file_name = [
-    'large_cap.json',
-    'top_gainers.json',
-    'top_losers.json',
-    'most_active.json',
-    'most_volatile.json',
-    'overbought.json',
-    'oversold.json'
+    'files/large_cap.json',
+    'files/top_gainers.json',
+    'files/top_losers.json',
+    'files/most_active.json',
+    'files/most_volatile.json',
+    'files/overbought.json',
+    'files/oversold.json'
 ]
 
 # extract CSV to dataframe
@@ -44,14 +44,14 @@ def extract():
 def extract_from_stock_symbol():
     data = pd.DataFrame(columns = [
         "Currency", "Description", "Symbol", "FIGI Identifier", "MIC", "Security Type"])
-    csv_data = extract_from_csv('stock_symbol.csv')
+    csv_data = extract_from_csv('files/stock_symbol.csv')
     data = csv_data.iloc[:, 1:7]
 
     return data
 
 def find_exchange_rate():
     data = pd.DataFrame()
-    data = extract_from_csv('exchange_rates.csv')
+    data = extract_from_csv('files/exchange_rates.csv')
     data.columns = ['Currency', 'Rate']
     data.set_index('Currency', inplace = True)
 
@@ -101,7 +101,7 @@ def log(message):
     now = datetime.now()
     timestamp = now.strftime(timestamp_format)
     
-    with open("logfile.txt", "a") as f:
+    with open("files/logfile.txt", "a") as f:
         f.write(timestamp + ',' + message + '\n')
 
 # running the ETL process

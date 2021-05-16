@@ -17,6 +17,7 @@ Undervalued stocks
 
 url = "https://www.tradingview.com/markets/stocks-usa/market-movers-"
 
+# extract stock market tables
 def extract_data(url):
     html_data = requests.get(url).text
     soup = BeautifulSoup(html_data, "html5lib")
@@ -28,12 +29,18 @@ def extract_data(url):
 
     return data
 
-def data_to_json(file_name, url_name):
+# convert table into .json file
+def data_to_json(table_name, url_name):
     data = extract_data(url + url_name + '/')
-    data.to_json(file_name + '.json')
+    data.to_json('files/' + table_name + '.json')
 
-# list of files to extract
-file_name = {
+# read list of tables
+def read_file_list(tables_to_extract):
+    for key, value in tables_to_extract.items():
+        data_to_json(key, value)
+
+# list of tables to extract
+tables_to_extract = {
     'large_cap': 'large-cap/',
     'top_gainers': 'gainers/',
     'top_losers': 'losers/',
@@ -43,6 +50,4 @@ file_name = {
     'oversold': 'oversold/'
 }
 
-# extract data and save as .json
-for key, value in file_name.items():
-    data_to_json(key, value)
+read_file_list(tables_to_extract)
