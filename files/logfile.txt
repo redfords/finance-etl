@@ -1,0 +1,8 @@
+2021-May-15-23:58:45,Extract phase started
+2021-May-15-23:59:22,Extract phase started
+2021-May-15-23:59:22,Extract phase ended
+2021-May-15-23:59:22,Transform phase started
+2021-May-15-23:59:22,Transform phase ended
+2021-May-15-23:59:22,Load phase started
+2021-May-15-23:59:22,Load phase ended
+2021-May-15-23:59:22,ETL job ended
