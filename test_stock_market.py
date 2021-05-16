@@ -1,13 +1,12 @@
 import pytest
 import requests
 import pandas as pd
-import stock_market as sm
-
-url = "https://www.tradingview.com/markets/stocks-usa/market-movers-"
+import stock_market
 
 def test_extract_data():
+    url = "https://www.tradingview.com/markets/stocks-usa/market-movers-"
 
-    extract = sm.extract_data(url)
+    extract = stock_market.extract_data(url)
 
     data_type = {
     'Company': 'object',
@@ -21,10 +20,8 @@ def test_extract_data():
 
     index = ['Company', 'Last', 'CHG%', 'CHG', 'Rating', 'Vol', 'Mkt Cap']
     test_series = pd.Series(data = data_type, index = index)
-    assert extract.dtypes == test_series
 
-def test_data_to_json():
-    pass
+    assert extract.dtypes.equals(test_series)
 
-def test_read_file_list():
-    pass
+
+
