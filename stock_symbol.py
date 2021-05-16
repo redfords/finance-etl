@@ -12,7 +12,7 @@ response = requests.get(url)
 stock_symbol = pd.read_json(response.text)
 stock_symbol = stock_symbol[["currency", "description", "displaySymbol", "figi", "mic", "type"]]
 
-# raname columns
+# rename columns
 stock_symbol.columns = [
     "Currency", "Description", "Symbol", "FIGI Identifier", "MIC", "Security Type"]
 

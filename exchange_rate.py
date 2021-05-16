@@ -12,7 +12,7 @@ response = requests.get(url)
 exchange_rate_html = pd.read_json(response.text)
 exchange_rate = exchange_rate_html[["rates"]]
 
-# raname columns
+# rename columns
 exchange_rate.columns = ["Rate"]
 print(exchange_rate)
 
