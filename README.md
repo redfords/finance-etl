@@ -9,8 +9,7 @@ ETL pipeline to extract data from multiple file formats, transform it into speci
 - Requests
 - BeautifulSoup
 - Pytest
-- SQLAlchemy
-- Airflow
+- Apache Airflow
 
 ## Project
 
@@ -18,6 +17,4 @@ US stock market data extracted from TradingView with BeautifulSoup. Stock symbol
 
 All .csv files with stock market data are validated, transformed and merged into a single file. Then joined with .json files with stock symbols and exchange rates.
 
-Once the extracting and transforming process is complete, the stock data is loaded into the MySQL database. All events are recorded in a log file.
-
-Schedule and automation of data loading via Apache Airflow. Testing implemented with Pytest.
+All events are recorded in a log file. Schedule and automation of data loading via Apache Airflow. Testing implemented with Pytest.
