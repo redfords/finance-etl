@@ -4,10 +4,11 @@ ETL pipeline to extract data from multiple file formats, transform it into speci
 
 ## Modules
 
-- Pandas
-- Numpy
 - Requests
 - BeautifulSoup
+- Pandas
+- Numpy
+- SQLAlchemy
 - Pytest
 - Apache Airflow
 
