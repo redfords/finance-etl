@@ -4,23 +4,17 @@ ETL pipeline to extract data from multiple file formats, transform it into speci
 
 ## Modules
 
-Pandas
-
-Numpy
-
-Requests
-
-BeautifulSoup
-
-Pytest
-
-SQLAlchemy
-
-Airflow
+- Pandas
+- Numpy
+- Requests
+- BeautifulSoup
+- Pytest
+- SQLAlchemy
+- Airflow
 
 ## Project
 
-First we extract US stock market data from TradingView with BeautifulSoup. Then we extract stock symbols from Finnhub Stock API and exchange rates from Exchange Rates API.
+US stock market data extracted from TradingView with BeautifulSoup. Stock symbols extracted from Finnhub Stock API and exchange rates from Exchange Rates API.
 
 All .csv files with stock market data are validated, transformed and merged into a single file. Then joined with .json files with stock symbols and exchange rates.
 
