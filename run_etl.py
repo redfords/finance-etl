@@ -9,13 +9,13 @@ targetfile = "files/transformed_data.csv"
 
 # files to convert from .json to dataframe
 file_name = [
-    'files/large_cap.json',
-    'files/top_gainers.json',
-    'files/top_losers.json',
-    'files/most_active.json',
-    'files/most_volatile.json',
-    'files/overbought.json',
-    'files/oversold.json'
+    'large_cap',
+    'top_gainers',
+    'top_losers',
+    'most_active',
+    'most_volatile',
+    'overbought',
+    'oversold'
 ]
 
 # extract CSV to dataframe
@@ -35,7 +35,8 @@ def extract():
     extracted_data = pd.DataFrame()
 
     for file in file_name:
-        extracted_data = extracted_data.append(extract_from_json(file), ignore_index = True)
+        extracted_data = extracted_data.append(
+            extract_from_json('files/' + file + '.json'), ignore_index = True)
 
     extracted_data.columns = [
         'company', 'last_usd', 'chg_p', 'chg', 'rating', 'vol', 'mkt_cap_usd']
