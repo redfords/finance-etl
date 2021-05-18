@@ -93,7 +93,4 @@ task5 =  PythonOperator(
 	)
 
 # task hierarchy
-task1 >> task4
-task2 >> task4
-task3 >> task4
-task4 >> task5
+(task1, task2, task3) >> task4 >> task5
