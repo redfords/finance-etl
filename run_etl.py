@@ -65,9 +65,6 @@ def transform(data, exchange_rate, stock_symbol):
     data = data.drop_duplicates(
         subset = ['company', 'last_usd', 'chg_p', 'chg', 'rating', 'vol', 'mkt_cap_usd'])
 
-    # remove space from symbol
-    
-
     # split company into symbol and description
     data[['symbol', 'description']] = data['company'].str.split(' ', 1, expand = True)
     data.drop('company', axis = 1, inplace = True)
