@@ -1,3 +1,21 @@
-# Stock Market ETL
+# Finance ETL
 
-Extract stock market data from TradingView, Finnhub Stock API and Exchange Rates API.
+ETL pipeline to extract data from multiple file formats, transform it into specific datatypes, and load it into a single source for analysis.
+
+## Modules
+
+- Requests
+- BeautifulSoup
+- Pandas
+- Numpy
+- SQLAlchemy
+- Pytest
+- Apache Airflow
+
+## Project
+
+US stock market data extracted from TradingView with BeautifulSoup. Stock symbols extracted from Finnhub Stock API and exchange rates from Exchange Rates API.
+
+All .csv files with stock market data are validated, transformed and merged into a single file. Then joined with .json files with stock symbols and exchange rates.
+
+All events are recorded in a log file. Schedule and automation of data loading via Apache Airflow. Testing implemented with Pytest.
