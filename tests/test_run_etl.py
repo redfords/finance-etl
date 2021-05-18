@@ -7,16 +7,16 @@ def test_extract():
     data = run_etl.extract()
 
     data_type = {
-    'Company': 'object',
-    'Last (US$)': 'float64',
-    'CHG%': 'object',
-    'CHG': 'float64',
-    'Rating': 'object',
-    'Vol': 'object',
-    'Mkt Cap (US$)':'object'
+    'company': 'object',
+    'last_usd': 'float64',
+    'chg_p': 'object',
+    'chg': 'float64',
+    'rating': 'object',
+    'vol': 'object',
+    'mkt_cap_usd':'object'
     }
 
-    index = ['Company', 'Last (US$)', 'CHG%', 'CHG', 'Rating', 'Vol', 'Mkt Cap (US$)']
+    index = ['company', 'last_usd', 'chg_p', 'chg', 'rating', 'vol', 'mkt_cap_usd']
     test_series = pd.Series(data = data_type, index = index)
 
     assert data.dtypes.equals(test_series)
@@ -30,15 +30,15 @@ def test_extract_from_stock_symbol():
     data = run_etl.extract_from_stock_symbol()
 
     data_type = {
-    'Currency': 'object',
-    'Description': 'object',
-    'Symbol': 'object',
-    'FIGI Identifier': 'object',
-    'MIC': 'object',
-    'Security Type': 'object'
+    'currency': 'object',
+    'description': 'object',
+    'symbol': 'object',
+    'figi_identifier': 'object',
+    'mic': 'object',
+    'security_type': 'object'
     }
 
-    index = ["Currency", "Description", "Symbol", "FIGI Identifier", "MIC", "Security Type"]
+    index = ["currency", "description", "symbol", "figi_identifier", "mic", "security_type"]
     test_series = pd.Series(data = data_type, index = index)
 
     assert data.dtypes.equals(test_series)
@@ -56,31 +56,31 @@ def test_transform():
     data = run_etl.transform(extracted_data, exchange_rate, stock_symbol_data)
 
     data_type = {
-    'Symbol': 'object',
-    'Description': 'object',
-    'Last (GBP$)': 'float64',
-    'CHG%': 'object',
-    'CHG': 'float64',
-    'Rating': 'object',
-    'Vol': 'object',
-    'Mkt Cap (GBP$)':'object',
-    'FIGI Identifier': 'object',
-    'MIC': 'object',
-    'Security Type': 'object'
+    'symbol': 'object',
+    'description': 'object',
+    'last_gbp': 'float64',
+    'chg_p': 'object',
+    'chg': 'float64',
+    'rating': 'object',
+    'vol': 'object',
+    'mkt_cap_gbp':'object',
+    'figi_identifier': 'object',
+    'mic': 'object',
+    'security_type': 'object'
     }
 
     index = [
-        'Symbol',
-        'Description',
-        'Last (GBP$)',
-        'CHG%',
-        'CHG',
-        'Rating',
-        'Vol',
-        'Mkt Cap (GBP$)',
-        'FIGI Identifier',
-        'MIC',
-        'Security Type'
+        'symbol',
+        'description',
+        'last_gbp',
+        'chg_p',
+        'chg',
+        'rating',
+        'vol',
+        'mkt_cap_gbp',
+        'figi_identifier',
+        'mic',
+        'security_type'
     ]
     test_series = pd.Series(data = data_type, index = index)
 

@@ -1,6 +1,6 @@
 import pytest
 import requests
-import stock_symbol
+import get_stock_symbol
 
 token = "c2da452ad3i9v1gkgueg"
 

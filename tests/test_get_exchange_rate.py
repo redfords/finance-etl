@@ -1,6 +1,6 @@
 import pytest
 import requests
-import exchange_rate
+import get_exchange_rate
 
 access_key = "869c331656e9baaca09fad9d9dce9fe1"
 
