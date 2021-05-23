@@ -19,23 +19,7 @@ def load_data():
     rows = list(data.itertuples(index = False, name = None))
 
     # insert list of tuples into db
-    mysql_hook.insert_rows(
-		table = table_name,
-		rows = rows,
-		target_fields = [
-			'symbol',
-			'description',
-			'last_gbp',
-			'chg_p',
-			'chg',
-			'rating',
-			'vol',
-			'mkt_cap_gbp',
-			'figi_identifier',
-			'mic',
-			'security_type'
-		]
-	)
+    mysql_hook.insert_rows(table = table_name, rows = rows)
 
 # define the default dag arguments
 default_args = {
