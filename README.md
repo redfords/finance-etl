@@ -16,11 +16,12 @@ ETL pipeline to extract data from multiple file formats, transform it into speci
 
 General overview:
 
-- US stock market data extracted from TradingView with BeautifulSoup and stored in .json files.
-- Stock symbols extracted from Finnhub Stock API and exchange rates from Exchange Rates API, then stored in .csv files.
-- All files with stock market data are transformed and merged into a single file, then joined with the stock symbol and exchange rate.
-- The stock market data is loaded into the database and validated.
-- All events are recorded in a log file
+- US stock market data is extracted from TradingView with BeautifulSoup and stored in .json files.
+- Stock symbol data is collected from Finnhub Stock API and stored in a .csv file.
+- Exchange rate data is collected from Exchange Rates API and stored in a .csv file.
+- All stock market files are transformed and combined in a single file.
+- ETL job execution is complete once data is loaded into the database and validated.
+- All events are recorded in a log file.
 
 DAG graph view:
 
