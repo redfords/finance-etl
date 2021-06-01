@@ -12,10 +12,15 @@ ETL pipeline to extract data from multiple file formats, transform it into speci
 - Pytest
 - Apache Airflow
 
-## Project
+## ETL Flow
 
-US stock market data extracted from TradingView with BeautifulSoup. Stock symbols extracted from Finnhub Stock API and exchange rates from Exchange Rates API.
+General overview:
 
-All .csv files with stock market data are validated, transformed and merged into a single file. Then joined with .json files with stock symbols and exchange rates.
+- US stock market data extracted from TradingView with BeautifulSoup and stored in .json files.
+- Stock symbols extracted from Finnhub Stock API and exchange rates from Exchange Rates API, then stored in .csv files.
+- All files with stock market data are transformed and merged into a single file, then joined with the stock symbol and exchange rate.
+- The stock market data is loaded into the database and validated.
+- All events are recorded in a log file
 
-All events are recorded in a log file. Schedule and automation of data loading via Apache Airflow. Testing implemented with Pytest.
+DAG graph view:
+![Dag](https://i.imgur.com/krPainR.png)
