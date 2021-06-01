@@ -23,4 +23,5 @@ General overview:
 - All events are recorded in a log file
 
 DAG graph view:
+
 ![Dag](https://i.imgur.com/krPainR.png)
