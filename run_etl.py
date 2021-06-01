@@ -93,7 +93,7 @@ def transform(data, exchange_rate, stock_symbol):
         on = 'symbol', how = 'left')
 
     # replace nan values
-    values = {'symbol': '-', 'figi_identifier': '-', 'security_type': '-' }
+    values = {'symbol': '-', 'figi_identifier': '-', 'mic': '-', 'security_type': '-' }
     data.fillna(value = values, inplace = True)
 
     return data

@@ -4,10 +4,11 @@ from airflow.operators.bash_operator import BashOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.providers.mysql.hooks.mysql import MySqlHook
 import pandas as pd
+import run_data_validation
+
+mysql_hook = MySqlHook(mysql_conn_id = 'stock_id')
 
 def load_data():
-    mysql_hook = MySqlHook(mysql_conn_id = 'stock_id')
-
     table_name = 'stock_market'
     file_name = 'transformed_data'
 
@@ -20,6 +21,18 @@ def load_data():
 
     # insert list of tuples into db
     mysql_hook.insert_rows(table = table_name, rows = rows)
+
+# run queries and save results as txt
+def save_as_txt(result, file_name):
+    result.to_csv('files/' + file_name + '.txt', sep = '\t', index = False)
+
+def validate():
+	queries = run_data_validation.queries
+
+	for query, file_name in queries.items():
+		data = mysql_hook.get_pandas_df(query)
+		if not data.empty:
+			save_as_txt(data, file_name)
 
 # define the default dag arguments
 default_args = {
@@ -70,11 +83,19 @@ task4 = BashOperator(
 
 # load transformed data into the database
 task5 =  PythonOperator(
-	task_id = 'transform_load',
+	task_id = 'load_into_db',
 	provide_context = True,
 	python_callable = load_data,
 	dag = dag
 	)
 
+# load transformed data into the database
+task6 =  PythonOperator(
+	task_id = 'validate_data',
+	provide_context = True,
+	python_callable = validate,
+	dag = dag
+	)
+
 # task hierarchy
-(task1, task2, task3) >> task4 >> task5
+(task1, task2, task3) >> task4 >> task5 >> task6
