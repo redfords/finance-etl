@@ -21,7 +21,6 @@ General overview:
 - Exchange rate data is collected from Exchange Rates API and stored in a .csv file.
 - All stock market files are transformed and combined in a single file.
 - ETL job execution is complete once data is loaded into the database and validated.
-- All events are recorded in a log file.
 
 DAG graph view:
 
