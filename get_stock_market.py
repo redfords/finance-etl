@@ -9,7 +9,7 @@ Largest companies by market capitalization
 Stocks that have increased the most in price
 Stocks that have lost the most value
 Stocks that have been traded the most
-Stocks with the highest volatility
+Stocks with the highsest volatility
 Overvalued stocks
 Undervalued stocks
 """
@@ -24,7 +24,8 @@ def extract_data(url):
 
     data = pd.read_html(str(tables[0]), flavor = 'bs4')[0]
     data = data.iloc[:, 0:7]
-    data.columns = ['company', 'last', 'chg_p', 'chg', 'rating', 'vol', 'mkt_cap']
+    data.drop(data.columns[2], axis = 1, inplace = True)
+    data.columns = ['company', 'last', 'chg', 'rating', 'vol', 'mkt_cap']
 
     # remove space before company symbol
     data.loc[data['company'].str.contains(
@@ -44,13 +45,13 @@ def read_file_list(tables_to_extract):
 
 # list of tables to extract
 tables_to_extract = {
-    'large_cap': 'large-cap/',
-    'top_gainers': 'gainers/',
-    'top_losers': 'losers/',
-    'most_active': 'active/',
-    'most_volatile': 'most-volatile/',
-    'overbought': 'overbought/',
-    'oversold': 'oversold/'
+    'large_cap': 'large-cap',
+    'top_gainers': 'gainers',
+    'top_losers': 'losers',
+    'most_active': 'active',
+    'most_volatile': 'most-volatile',
+    'overbought': 'overbought',
+    'oversold': 'oversold'
 }
 
 read_file_list(tables_to_extract)
