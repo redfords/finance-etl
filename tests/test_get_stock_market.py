@@ -11,14 +11,13 @@ def test_extract_data():
     data_type = {
     'company': 'object',
     'last': 'float64',
-    'chg_p': 'object',
     'chg': 'float64',
     'rating': 'object',
     'vol': 'object',
     'mkt_cap':'object'
     }
 
-    index = ['company', 'last', 'chg_p', 'chg', 'rating', 'vol', 'mkt_cap']
+    index = ['company', 'last', 'chg', 'rating', 'vol', 'mkt_cap']
     test_series = pd.Series(data = data_type, index = index)
 
     assert extract.dtypes.equals(test_series)

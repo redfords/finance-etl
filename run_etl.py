@@ -1,5 +1,6 @@
 from datetime import datetime
 import insert_table
+import run_data_validation
 import pandas as pd
 pd.options.mode.chained_assignment = None
 
@@ -127,5 +128,9 @@ log("Load phase started")
 load(targetfile, transformed_data)
 insert_table.insert_into_db('transformed_data', 'stock_market')
 log("Load phase ended")
+
+log("Validation phase started")
+run_data_validation.validate()
+log("Validation phase ended")
 
 log("ETL job ended")

@@ -9,14 +9,13 @@ def test_extract():
     data_type = {
     'company': 'object',
     'last_usd': 'float64',
-    'chg_p': 'object',
     'chg': 'float64',
     'rating': 'object',
     'vol': 'object',
     'mkt_cap_usd':'object'
     }
 
-    index = ['company', 'last_usd', 'chg_p', 'chg', 'rating', 'vol', 'mkt_cap_usd']
+    index = ['company', 'last_usd', 'chg', 'rating', 'vol', 'mkt_cap_usd']
     test_series = pd.Series(data = data_type, index = index)
 
     assert data.dtypes.equals(test_series)
@@ -59,7 +58,6 @@ def test_transform():
     'symbol': 'object',
     'description': 'object',
     'last_gbp': 'float64',
-    'chg_p': 'object',
     'chg': 'float64',
     'rating': 'object',
     'vol': 'object',
@@ -73,7 +71,6 @@ def test_transform():
         'symbol',
         'description',
         'last_gbp',
-        'chg_p',
         'chg',
         'rating',
         'vol',

@@ -18,12 +18,11 @@ engine.execute(query)
 
 # create table stock_market
 query = """
-    CREATE TABLE stock_market (
+    CREATE TABLE if NOT EXISTS stock_market (
     stock_id INT NOT NULL AUTO_INCREMENT,
     symbol VARCHAR(10),
     description VARCHAR(100),
     last_gbp FLOAT(10, 3),
-    chg_p VARCHAR(10),
     chg FLOAT(6, 2),
     rating VARCHAR(15),
     vol VARCHAR(10),
@@ -50,4 +49,4 @@ def insert_into_db(file_to_process, table):
 
     data.to_sql(table, con = engine, if_exists = 'append', index = False)
 
-# insert_into_db('file', 'table')
+#insert_into_db('file', 'table')
